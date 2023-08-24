@@ -14,8 +14,17 @@ function oe_module_npi_registry_add_menu_item(MenuEvent $event)
     $menuItem->label = xlt("NPI Registry");
     $menuItem->url = "/interface/modules/custom_modules/oe-module-npi-registry/public/index.php";
     $menuItem->children = [];
-    //$menuItem->acl_req = ["patients", "docs"];
-    //$menuItem->global_req = ["oefax_enable"];
+    /**
+     * Access Control List constrain
+     * @example 'patients', 'docs', 'admin', 'user', 'demo'
+     */
+    $menuItem->acl_req = [];
+
+    /**
+     * Dinamic constrain based on boolean globals variables
+     * It allows a menu item to display if the property is true, and be hidden if the property is false
+     */
+    $menuItem->global_req = [];
 
     foreach ($menu as $item) {
         if ($item->menu_id == 'modimg') {
