@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "medicalmundi/npi-registry-php-sdk": "^0.1.2",
+        "medicalmundi/npi-registry-php-sdk": "^0.1",
         "openemr/oe-module-installer-plugin": "^0.1."
     },
     "conflict": {
