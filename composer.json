@@ -26,16 +26,6 @@
         "bamarni/composer-bin-plugin": "^1.8",
         "phpunit/phpunit": "^9.0"
     },
-    "autoload": {
-        "psr-4": {
-            "OpenEMR\\Modules\\NpiRegistry\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "OpenEMR\\Modules\\NpiRegistry\\Tests\\": "tests/"
-        }
-    },
     "config": {
         "allow-plugins": {
             "bamarni/composer-bin-plugin": true,
@@ -58,6 +48,16 @@
                 "v7_0_1_1",
                 "v7_0_1"
             ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "OpenEMR\\Modules\\NpiRegistry\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OpenEMR\\Modules\\NpiRegistry\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "stable",
