@@ -6,7 +6,7 @@ class Module
 {
     public const MODULE_NAME = 'Npi Registry';
 
-    public const MODULE_VERSION = 'v0.0.0';
+    public const MODULE_VERSION = 'v0.0.1';
 
     public const MODULE_SOURCE_CODE = 'https://github.com/MedicalMundi/npi-registry-sdk';
 
