@@ -8,6 +8,8 @@
 >
     <projectFiles>
         <directory name="src" />
+        <directory name="tests" />
+        <directory name="config/di" />
         <ignoreFiles>
             <directory name="vendor" />
             <directory name="tools" />

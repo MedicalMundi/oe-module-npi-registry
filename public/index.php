@@ -2,8 +2,8 @@
 
 require_once __DIR__ . '/../src/Module.php';
 
-use MedicalMundi\NpiRegistry\SDK\NpiRegistry;
 use OpenEMR\Modules\NpiRegistry\Module;
+use Twig\Environment;
 
 if (Module::isStandAlone()) {
     require __DIR__ . '/../vendor/autoload.php';
@@ -11,13 +11,8 @@ if (Module::isStandAlone()) {
     require __DIR__ . '/../../../../../vendor/autoload.php';
 }
 
+$module = Module::bootstrap();
 
+$twig = $module->getContainer()->get(Environment::class);
 
-$npiRegistry = NpiRegistry::connect();
-
-$data = $npiRegistry->search
-    ->where('version', '2.1') // api version is mandatory
-    ->where('city', 'atlanta')
-    ->fetch();
-
-var_dump($data);
+echo $twig->render('index.html.twig', []);
