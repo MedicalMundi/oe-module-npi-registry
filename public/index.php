@@ -1,9 +1,16 @@
 <?php declare(strict_types=1);
 
-require __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../src/Module.php';
 
 use MedicalMundi\NpiRegistry\SDK\NpiRegistry;
+use OpenEMR\Modules\NpiRegistry\Module;
+
+if (Module::isStandAlone()) {
+    require __DIR__ . '/../vendor/autoload.php';
+} else {
+    require __DIR__ . '/../../../../../vendor/autoload.php';
+}
+
 
 
 $npiRegistry = NpiRegistry::connect();

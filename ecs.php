@@ -15,6 +15,7 @@ return function (ECSConfig $ecsConfig): void {
     $ecsConfig->paths([
         __DIR__ . '/src',
         __DIR__ . '/tests',
+        __DIR__ . '/public/index.php',
         __DIR__ . '/rector.php',
     ]);
 
