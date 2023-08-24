@@ -2,6 +2,12 @@
 
 namespace OpenEMR\Modules\NpiRegistry;
 
+use DI\ContainerBuilder;
+use Psr\Container\ContainerInterface;
+
+/**
+ * @psalm-suppress MissingConstructor
+ */
 class Module
 {
     public const MODULE_NAME = 'Npi Registry';
@@ -14,9 +20,23 @@ class Module
 
     public const VENDOR_URL = 'https://github.com/medicalmundi';
 
+    private ContainerInterface $container;
+
     public static function bootstrap(): self
     {
-        return new self();
+        $module = new self();
+        $module->container = $module->buildContainer();
+
+        return $module;
+    }
+
+    private function buildContainer(): ContainerInterface
+    {
+        $containerBuilder = new ContainerBuilder();
+        $containerBuilder->useAutowiring(true);
+        $containerBuilder->addDefinitions(__DIR__ . '/../config/di/twig.php');
+
+        return $containerBuilder->build();
     }
 
     public static function isStandAlone(): bool
@@ -28,12 +48,12 @@ class Module
 
     public static function mainDir(): string
     {
-        return \dirname(__DIR__, 5);
+        return \dirname(__DIR__, 1);
     }
 
     public static function openemrDir(): string
     {
-        return \dirname(__DIR__, 1);
+        return \dirname(__DIR__, 5);
     }
 
     public static function documentsDir(): string
@@ -42,5 +62,10 @@ class Module
             return Module::mainDir() . '/var/Documents';
         }
         return Module::openemrDir() . '/Documentation';
+    }
+
+    public function getContainer(): ContainerInterface
+    {
+        return $this->container;
     }
 }
