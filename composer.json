@@ -1,6 +1,5 @@
 {
     "name": "medicalmundi/oe-module-npi-registry",
-    "version": "0.0.1",
     "type": "openemr-module",
     "description": "OpenEMR NPI Registry module",
     "keywords": [
@@ -8,6 +7,7 @@
         "openemr module",
         "National Provider Identifier Registry"
     ],
+    "version": "0.0.1",
     "license": "MIT",
     "authors": [
         {
@@ -16,7 +16,7 @@
         }
     ],
     "require": {
-        "php": "^7.3 || ^8.0",
+        "php": "^7.4 || ^8.0",
         "medicalmundi/npi-registry-php-sdk": "^0.1.2",
         "openemr/oe-module-installer-plugin": "^0.1."
     },
