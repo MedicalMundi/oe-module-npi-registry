@@ -15,7 +15,8 @@
         }
     ],
     "require": {
-        "php": "^7.3 || ^8.0"
+        "php": "^7.3 || ^8.0",
+        "openemr/oe-module-installer-plugin": "^0.1."
     },
     "conflict": {
         "openemr/openemr": "<6.0.0",
