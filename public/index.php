@@ -2,8 +2,9 @@
 
 require_once __DIR__ . '/../src/Module.php';
 
+use OpenEMR\Modules\NpiRegistry\Adapter\Http\Web\DefaultController;
 use OpenEMR\Modules\NpiRegistry\Module;
-use Twig\Environment;
+use Symfony\Component\HttpFoundation\Request;
 
 if (Module::isStandAlone()) {
     require __DIR__ . '/../vendor/autoload.php';
@@ -13,6 +14,12 @@ if (Module::isStandAlone()) {
 
 $module = Module::bootstrap();
 
-$twig = $module->getContainer()->get(Environment::class);
+/**
+ * TODO: use HTTP request/response
+ */
+$request = Request::createFromGlobals();
 
-echo $twig->render('index.html.twig', []);
+/** @var DefaultController $defaultController */
+$defaultController = $module->getContainer()->get(DefaultController::class);
+
+echo $defaultController($request);

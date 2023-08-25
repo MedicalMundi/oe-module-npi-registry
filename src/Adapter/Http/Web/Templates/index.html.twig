@@ -1,5 +1,124 @@
 {% extends 'base-layout-tbs-5.html.twig' %}
 
 {% block main %}
-index page!!
+    <div id="output" class="container"></div>
+
+    <div class="row col-11  my-5">
+         {{ include('_form.html.twig') }}
+    </div>
+    <div class="row col-11  my-5 p-1">
+        <div class="card">
+            <div class="table-responsive">
+                <table class=" table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">number</th>
+                        <th scope="col">type</th>
+                        <th scope="col">basic</th>
+
+                        <th scope="col">auth_off</th>
+
+                        <th scope="col">taxonomies code</th>
+                        <th scope="col">taxonomies group</th>
+                        <th scope="col">taxonomies desc</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{ items.result_count }}
+                    {% for item in items.results %}
+                        <tr>
+                            <td>#</td>
+                            <td>{{ item.number }}</td>
+                            <td>{{ item.enumeration_type }}</td>
+
+
+                            <td>{{ item.basic.organization_name }}</td>
+
+                            <td>{{ item.basic.authorized_official_first_name }} {{ item.basic.authorized_official_last_name }} {{ item.basic.authorized_official_title_or_position }}</td>
+
+
+
+                            <td>{{ item.taxonomies[0].code }}</td>
+                            <td>{{ item.taxonomies[0].group }}</td>
+                            <td>{{ item.taxonomies[0].desc }}</td>
+
+                            {#                    <td>{{ item.organization_name }}</td>#}
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}
+
+
+
+{% block module_javascripts %}
+{{ parent() }}
+
+    <script>
+        (function () {
+            var output = document.getElementById('output');
+            document.getElementById('sendSearchForm').onclick = function () {
+                var npiNumber = document.getElementById('npiNumber').value;
+                var npiType = document.getElementById('npiType').value;
+                var npiTaxonomyDescription = document.getElementById('npiTaxonomyDescription').value;
+
+                var providerFirstName = document.getElementById('providerFirstName').value;
+                var providerLastName = document.getElementById('providerLastName').value;
+
+                var organizationName = document.getElementById('organizationName').value;
+                var aoFirstName = document.getElementById('aoFirstName').value;
+                var aoLastName = document.getElementById('aoLastName').value;
+
+                var city = document.getElementById('city').value;
+                var state = document.getElementById('state').value;
+                var country = document.getElementById('country').value;
+                var postalCode = document.getElementById('postalCode').value;
+                var addressType = document.getElementById('addressType').value;
+
+                axios.post('/api/search', {
+                    // BASE
+                    'npiNumber': npiNumber,
+                    'npiType': npiType,
+                    'npiTaxonomyDescription': npiTaxonomyDescription,
+                    // INDIVIDUAL
+                    'providerFirstName': providerFirstName,
+                    'providerLastName': providerLastName,
+                    // ORGANIZATION
+                    'organizationName': organizationName,
+                    'aoFirstName': aoFirstName,
+                    'aoLastName': aoLastName,
+                    // LOCATION
+                    'city': city,
+                    'state': state,
+                    'country': country,
+                    'postalCode': postalCode,
+                    'addressType': addressType,
+                    }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                    }
+                )
+                    .then(function (res) {
+                        output.className = 'container';
+                        output.innerHTML = res.data;
+                        console.log(res.data)
+                    })
+                    .catch(function (err) {
+                        output.className = 'container text-danger';
+                        output.innerHTML = err.message;
+                    });
+            };
+        })();
+    </script>
+
+{% endblock %}
+
+
+

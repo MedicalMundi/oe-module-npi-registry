@@ -34,6 +34,7 @@ class Module
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->useAutowiring(true);
+        $containerBuilder->addDefinitions(__DIR__ . '/../config/di/services.php');
         $containerBuilder->addDefinitions(__DIR__ . '/../config/di/twig.php');
 
         return $containerBuilder->build();
