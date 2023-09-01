@@ -50,6 +50,14 @@ class DefaultController
             return $this->api($request);
         }
 
+        if ($request->getRequestUri() === '/about') {
+            return $this->about();
+        }
+
+        if ($request->getRequestUri() === '/faq') {
+            return $this->faq();
+        }
+
         return $this->notFound();
     }
 
@@ -82,5 +90,15 @@ class DefaultController
     public function notFound()
     {
         echo $this->twig->render('not-found.html.twig', []);
+    }
+
+    public function about()
+    {
+        echo $this->twig->render('about.html.twig', []);
+    }
+
+    public function faq()
+    {
+        echo $this->twig->render('faq.html.twig', []);
     }
 }
