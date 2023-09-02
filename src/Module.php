@@ -20,6 +20,10 @@ class Module
 
     public const VENDOR_URL = 'https://github.com/medicalmundi';
 
+    public const LICENSE = 'MIT';
+
+    public const LICENSE_URL = 'https://github.com/MedicalMundi/oe-module-npi-registry/blob/main/LICENSE';
+
     private ContainerInterface $container;
 
     public static function bootstrap(): self
