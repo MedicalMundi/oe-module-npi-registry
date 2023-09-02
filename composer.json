@@ -20,6 +20,7 @@
         "openemr/oe-module-installer-plugin": "^0.1.",
         "php-di/php-di": "^6.0",
         "symfony/event-dispatcher": "^5.4",
+        "symfony/http-foundation": "^4.4 || ^5.4",
         "twig/twig": "^2.12 || ^3.5"
     },
     "conflict": {
@@ -29,7 +30,8 @@
     },
     "require-dev": {
         "bamarni/composer-bin-plugin": "^1.8",
-        "phpunit/phpunit": "^9.0"
+        "phpunit/phpunit": "^9.0",
+        "symfony/var-dumper": "^5.4"
     },
     "config": {
         "allow-plugins": {

@@ -2,25 +2,26 @@
 
 {% block module_stylesheets %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 {% endblock %}
 
 {% block module_javascripts %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 {% endblock %}
 
 
 {% block body %}
-    <div class="container-fluid">
-        {% block main %}
-            <div class="container-fluid">
+    <div class="container">
+        {{ include('partials/_navbar-tbs-5.html.twig') }}
+        <div class="row">
+            {% block main %}
 
-            </div>
-        {% endblock %}
+            {% endblock %}
+        </div>
     </div>
 {% endblock %}
 
 {% block footer %}
-<div class="container-fluid">
-    <p class="text-muted"> {{ module.name }} - {{ module.version }} by {{ module.vendor_name }}</p>
-</div>
+    {{ include('partials/_footer-tbs-5.html.twig') }}
 {% endblock %}

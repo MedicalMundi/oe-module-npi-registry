@@ -11,6 +11,7 @@
         <directory name="tests" />
         <directory name="config/di" />
         <ignoreFiles>
+            <file name="src/Adapter/NpiRegistry/NpiRegistryRepository.php" />
             <directory name="vendor" />
             <directory name="tools" />
         </ignoreFiles>
