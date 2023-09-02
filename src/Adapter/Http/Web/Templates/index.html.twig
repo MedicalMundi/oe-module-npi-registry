@@ -13,37 +13,38 @@
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">number</th>
-                        <th scope="col">type</th>
-                        <th scope="col">basic</th>
+                        <th scope="col">Number</th>
+                        <th scope="col">NPI Type</th>
+                        <th scope="col">Name</th>
 
-                        <th scope="col">auth_off</th>
+                        <th scope="col">Primary Practice Address</th>
 
-                        <th scope="col">taxonomies code</th>
-                        <th scope="col">taxonomies group</th>
-                        <th scope="col">taxonomies desc</th>
+                        <th scope="col">Phone</th>
+
+                        <th scope="col">Primary Taxonomy</th>
                     </tr>
                     </thead>
                     <tbody>
                     {{ items.result_count }}
+
                     {% for item in items.results %}
                         <tr>
                             <td>#</td>
                             <td>{{ item.number }}</td>
                             <td>{{ item.enumeration_type }}</td>
-
-
-                            <td>{{ item.basic.organization_name }}</td>
-
-                            <td>{{ item.basic.authorized_official_first_name }} {{ item.basic.authorized_official_last_name }} {{ item.basic.authorized_official_title_or_position }}</td>
-
-
-
-                            <td>{{ item.taxonomies[0].code }}</td>
-                            <td>{{ item.taxonomies[0].group }}</td>
+                            <td>
+                                {% if item.enumeration_type == 'NPI-1'%}
+                                    {{ item.basic.first_name }} {{ item.basic.last_name }}
+                                {% else %}
+                                    {{ item.basic.organization_name }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {{ item.addresses[0].address_1 }} <br>
+                                {{ item.addresses[0].city }} {{ item.addresses[0].state }} {{ item.addresses[0].postal_code }}
+                            </td>
+                            <td>{{ item.addresses[0].telephone_number }}</td>
                             <td>{{ item.taxonomies[0].desc }}</td>
-
-                            {#                    <td>{{ item.organization_name }}</td>#}
                         </tr>
                     {% endfor %}
 

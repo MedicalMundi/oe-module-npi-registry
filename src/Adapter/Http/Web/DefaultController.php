@@ -18,23 +18,9 @@ class DefaultController
         $this->npiRegistryRepository = $npiRegistryRepository;
     }
 
-    //    public function __invoke(Request $request)
-    //    {
-    //        /**
-    //         * TODO: use HTTP request/response
-    //         */
-    //
-    //        dd($request);
-    //        $searchTerm = $request->get('npiNumber') ?? 'xx';
-    //        //dd($searchTerm);
-    //        $items = $this->npiRegistryRepository->search([]);
-    //
-    //        //dd($items->results[3]);
-    //        echo $this->twig->render('index.html.twig', [
-    //            'items' => $items,
-    //        ]);
-    //    }
-
+    /**
+     * naive router
+     */
     public function __invoke(Request $request)
     {
         /**
@@ -62,9 +48,23 @@ class DefaultController
 
     public function index(Request $request): void
     {
-        $items = $this->npiRegistryRepository->search([]);
+        /**
+         * TODO: use HTTP request/response
+         */
+
+        $searchParams = $request->request->all();
+        $itemsOrError = $this->npiRegistryRepository->search($searchParams);
+
+        if (property_exists($itemsOrError, 'Errors')) {
+            (array) $errors = $itemsOrError->Errors;
+            $items = [];
+        } else {
+            $errors = [];
+            $items = $itemsOrError;
+        }
 
         echo $this->twig->render('index.html.twig', [
+            'errors' => $errors,
             'items' => $items,
         ]);
     }
