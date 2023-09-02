@@ -41,7 +41,6 @@ class DefaultController
          * TODO: use HTTP request/response
          */
 
-        //dd($request->getRequestUri());
         if ($request->getRequestUri() === '/index.php' || $request->getRequestUri() === '/' || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public/index.php') {
             return $this->index($request);
         }
@@ -61,10 +60,8 @@ class DefaultController
         return $this->notFound();
     }
 
-    public function index(Request $request)
+    public function index(Request $request): void
     {
-        $searchTerm = $request->get('npiNumber') ?? 'xx';
-
         $items = $this->npiRegistryRepository->search([]);
 
         echo $this->twig->render('index.html.twig', [
@@ -72,14 +69,11 @@ class DefaultController
         ]);
     }
 
-    public function api(Request $request)
+    public function api(Request $request): void
     {
-        //dd($request->getContent());
-        //dd($request);
+        (array) $searchParams = $request->getContent();
 
-        $searchParams = $request->getContent();
-
-        $searchParams = json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+        (array) $searchParams = json_decode($searchParams, true, 512, JSON_THROW_ON_ERROR);
 
         $items = $this->npiRegistryRepository->search($searchParams);
 
@@ -87,17 +81,17 @@ class DefaultController
         echo $json;
     }
 
-    public function notFound()
+    public function notFound(): void
     {
         echo $this->twig->render('not-found.html.twig', []);
     }
 
-    public function about()
+    public function about(): void
     {
         echo $this->twig->render('about.html.twig', []);
     }
 
-    public function faq()
+    public function faq(): void
     {
         echo $this->twig->render('faq.html.twig', []);
     }

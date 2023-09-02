@@ -18,70 +18,101 @@ class NpiRegistryRepository implements NpiRegistryRepositoryInterface
 
     public function search(array $searchParams): ?object
     {
-        /*
-        * search by organization name and state
-         */
-        //        $finder = $this->npiRegistry->search
-        //            ->where('version', self::DEFAULT_API_VERSION)
-        //            ->where('organization_name', 'md**')
-        //            ->where('state', 'AL');
-        //            ->fetch();
-
         /** @var \MedicalMundi\NpiRegistry\SDK\NpiRegistry $finder */
         $finder = $this->npiRegistry->search
-            ->where('version', self::DEFAULT_API_VERSION);
+            ->where('version', self::DEFAULT_API_VERSION)
+            ->where('exactMatch', false)
+            ->where('pretty', false)
+            ->where('limit', 100); // limit range 0 - 200
 
-        // BASE
+        // BASE SEARCH
         if (\array_key_exists('npiNumber', $searchParams) && ('' !== $searchParams['npiNumber'])) {
             $finder->where('number', $searchParams['npiNumber']);
+        } else {
+            $finder->where('number', null);
         }
+
         if (\array_key_exists('npiType', $searchParams) && ('' !== $searchParams['npiType'])) {
             $finder->where('enumeration_type', $searchParams['npiType']);
+        } else {
+            $finder->where('enumeration_type', null);
         }
+
         if (\array_key_exists('npiTaxonomyDescription', $searchParams) && ('' !== $searchParams['npiTaxonomyDescription'])) {
             $finder->where('taxonomy_description', $searchParams['npiTaxonomyDescription']);
+        } else {
+            $finder->where('taxonomy_description', null);
         }
 
-        // INDIVIDUAL
+        // INDIVIDUAL SEARCH
         if (\array_key_exists('providerFirstName', $searchParams) && ('' !== $searchParams['providerFirstName'])) {
             $finder->where('first_name', $searchParams['providerFirstName']);
-        }
-        if (\array_key_exists('providerLastName', $searchParams) && ('' !== $searchParams['providerLastName'])) {
-            $finder->where('last_name', $searchParams['providerLastName']);
+
+            // TODO verify correct
+            $finder->where('name_purpose', 'Provider');
+        } else {
+            $finder->where('first_name', null);
         }
 
-        // ORGANIZATION
+        if (\array_key_exists('providerLastName', $searchParams) && ('' !== $searchParams['providerLastName'])) {
+            $finder->where('last_name', $searchParams['providerLastName']);
+            // TODO verify correct
+            $finder->where('name_purpose', 'Provider');
+        } else {
+            $finder->where('last_name', null);
+        }
+
+        // ORGANIZATION SEARCH
         if (\array_key_exists('organizationName', $searchParams) && ('' !== $searchParams['organizationName'])) {
             $finder->where('organization_name', (string) $searchParams['organizationName']);
+        } else {
+            $finder->where('organization_name', null);
         }
+
         if (\array_key_exists('aoFirstName', $searchParams) && ('' !== $searchParams['aoFirstName'])) {
             // ??
             $finder->where('??', $searchParams['aoFirstName']);
+        } else {
+            $finder->where('aoFirstName', null);
         }
+
         if (\array_key_exists('aoLastName', $searchParams) && ('' !== $searchParams['aoLastName'])) {
             // ??
             $finder->where('??', $searchParams['aoLastName']);
+        } else {
+            $finder->where('aoLastName', null);
         }
 
-        //LOCATION
+        //LOCATION SEARCH
         if (\array_key_exists('city', $searchParams) && ('' !== $searchParams['city'])) {
             $finder->where('city', $searchParams['city']);
-        }
-        if (\array_key_exists('state', $searchParams) && ('' !== $searchParams['state'])) {
-            $finder->where('state', $searchParams['state']);
+        } else {
+            $finder->where('city', null);
         }
 
-        //        if (\array_key_exists('country', $searchParams) && ('' !== $searchParams['country'])) {
-        //            $finder->where('country', $searchParams['country']);
-        //        }
+        if (\array_key_exists('state', $searchParams) && ('' !== $searchParams['state'])) {
+            $finder->where('state', $searchParams['state']);
+        } else {
+            $finder->where('state', null);
+        }
+
+        if (\array_key_exists('country', $searchParams) && ('' !== $searchParams['country'])) {
+            $finder->where('country', $searchParams['country']);
+        } else {
+            $finder->where('country', null);
+        }
 
         if (\array_key_exists('postalCode', $searchParams) && ('' !== $searchParams['postalCode'])) {
             $finder->where('postal_code', $searchParams['postalCode']);
+        } else {
+            $finder->where('postal_code', null);
         }
 
-        //        if (\array_key_exists('addressType', $searchParams) && ('' !== $searchParams['addressType'])) {
-        //            $finder->where('address_ype', $searchParams['addressType']);
-        //        }
+        if (\array_key_exists('addressType', $searchParams) && ('' !== $searchParams['addressType'])) {
+            $finder->where('address_ype', $searchParams['addressType']);
+        } else {
+            $finder->where('address_ype', null);
+        }
 
         return $finder->fetch();
     }
