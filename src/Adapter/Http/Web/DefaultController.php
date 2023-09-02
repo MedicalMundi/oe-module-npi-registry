@@ -35,7 +35,7 @@ class DefaultController
             return $this->api($request);
         }
 
-        if ($request->getRequestUri() === '/about') {
+        if ($request->getRequestUri() === '/about' || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/about') {
             return $this->about();
         }
 
