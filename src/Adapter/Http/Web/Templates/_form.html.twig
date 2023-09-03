@@ -4,19 +4,19 @@
         <div class="col">
             <div class="form-group">
                 <label for="npiNumber">NPI Number</label>
-                <input type="text" name="npiNumber" value=""class="form-control" id="npiNumber" aria-describedby="npiNumberlHelp">
+                <input type="text" name="npiNumber" value="{{ searchParamsOrNull.npiNumber }}"class="form-control" id="npiNumber" aria-describedby="npiNumberlHelp">
             </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label for="npiType">NPI Type</label>
-                <input type="text" name="npiType" class="form-control" id="npiType" >
+                <input type="text" name="npiType" value="{{ searchParamsOrNull.npiType }}" class="form-control" id="npiType" >
             </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label for="npiTaxonomyDescription">Taxonomy Description</label>
-                <input type="text" name="npiTaxonomyDescription" class="form-control" id="npiTaxonomyDescription" >
+                <input type="text" name="npiTaxonomyDescription" value="{{ searchParamsOrNull.npiTaxonomyDescription }}" class="form-control" id="npiTaxonomyDescription" >
             </div>
         </div>
     </div>
@@ -26,13 +26,13 @@
         <div class="col">
             <div class="form-group">
                 <label for="providerFirstName">Provider First Name</label>
-                <input type="text" name="providerFirstName" class="form-control" id="providerFirstName" >
+                <input type="text" name="providerFirstName" value="{{ searchParamsOrNull.providerFirstName }}" class="form-control" id="providerFirstName" >
             </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label for="providerLastName">Provider Last Name</label>
-                <input type="text" name="providerLastName" class="form-control" id="providerLastName" >
+                <input type="text" name="providerLastName" value="{{ searchParamsOrNull.providerLastName }}" class="form-control" id="providerLastName" >
             </div>
         </div>
     </div>
@@ -42,19 +42,19 @@
         <div class="col-6">
             <div class="form-group">
                 <label for="organizationName">Organization Name (LBN, DBA, Former LBN or Other Name)</label>
-                <input type="text" name="organizationName" class="form-control" id="organizationName" >
+                <input type="text" name="organizationName" value="{{ searchParamsOrNull.organizationName }}" class="form-control" id="organizationName" >
             </div>
         </div>
         <div class="col-3">
             <div class="form-group">
                 <label for="aoFirstName">Authorized Official First Name</label>
-                <input type="text" name="aoFirstName" class="form-control" id="aoFirstName" >
+                <input type="text" name="aoFirstName" value="{{ searchParamsOrNull.aoFirstName }}" class="form-control" id="aoFirstName" >
             </div>
         </div>
         <div class="col-3">
             <div class="form-group">
                 <label for="aoLastName">Authorized Official Last Name</label>
-                <input type="text" name="aoLastName" class="form-control" id="aoLastName" >
+                <input type="text" name="aoLastName" value="{{ searchParamsOrNull.aoLastName }}" class="form-control" id="aoLastName" >
             </div>
         </div>
     </div>
@@ -64,31 +64,31 @@
         <div class="col">
             <div class="form-group">
                 <label for="city">City</label>
-                <input type="text" name="city" class="form-control" id="city" >
+                <input type="text" name="city" value="{{ searchParamsOrNull.city }}" class="form-control" id="city" >
             </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label for="state">State</label>
-                <input type="text" name="state" class="form-control" id="state" >
+                <input type="text" name="state" value="{{ searchParamsOrNull.state }}" class="form-control" id="state" >
             </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label for="country">Country</label>
-                <input type="text" name="country" class="form-control" id="country" >
+                <input type="text" name="country" value="{{ searchParamsOrNull.country }}" class="form-control" id="country" >
             </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label for="postalCode">Postal Code</label>
-                <input type="text" name="postalCode" class="form-control" id="postalCode" >
+                <input type="text" name="postalCode" value="{{ searchParamsOrNull.postalCode }}" class="form-control" id="postalCode" >
             </div>
         </div>
         <div class="col">
             <div class="form-group">
                 <label for="addressType">Address Type</label>
-                <input type="text" name="addressType" class="form-control" id="addressType" >
+                <input type="text" name="addressType" value="{{ searchParamsOrNull.addressType }}" class="form-control" id="addressType" >
             </div>
         </div>
     </div>
