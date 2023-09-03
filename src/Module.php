@@ -14,7 +14,7 @@ class Module
 
     public const MODULE_VERSION = 'v0.0.7';
 
-    public const MODULE_SOURCE_CODE = 'https://github.com/MedicalMundi/npi-registry-sdk';
+    public const MODULE_SOURCE_CODE = 'https://github.com/MedicalMundi/oe-module-npi-registry';
 
     public const VENDOR_NAME = 'MedicalMundi';
 
