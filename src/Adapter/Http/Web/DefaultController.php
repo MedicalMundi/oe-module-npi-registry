@@ -30,6 +30,7 @@ class DefaultController
             || $request->getRequestUri() === '/'
             || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry'
             || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public'
+            || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public/'
             || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public/index.php') {
             return $this->index($request);
         }
