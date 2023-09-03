@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [Unreleased] - XXXX-XX-XX
 
+## [v0.0.6] -  2023-09-03
+### fixed
+- routing (faq page)
+
+
 ## [v0.0.5] -  2023-09-03
 ### fixed
 - routing (.htaccess)
