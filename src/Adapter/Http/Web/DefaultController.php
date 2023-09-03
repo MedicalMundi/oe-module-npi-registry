@@ -26,20 +26,26 @@ class DefaultController
         /**
          * TODO: use HTTP request/response
          */
-
-        if ($request->getRequestUri() === '/index.php' || $request->getRequestUri() === '/' || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public/index.php') {
+        if ($request->getRequestUri() === '/index.php'
+            || $request->getRequestUri() === '/'
+            || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry'
+            || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public'
+            || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public/index.php') {
             return $this->index($request);
         }
 
-        if ($request->getRequestUri() === '/api/search') {
+        if ($request->getRequestUri() === '/api/search'
+            || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public/api/search') {
             return $this->api($request);
         }
 
-        if ($request->getRequestUri() === '/about' || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/about') {
+        if ($request->getRequestUri() === '/about'
+            || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public/about') {
             return $this->about();
         }
 
-        if ($request->getRequestUri() === '/faq') {
+        if ($request->getRequestUri() === '/faq'
+            || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public/faq') {
             return $this->faq();
         }
 
