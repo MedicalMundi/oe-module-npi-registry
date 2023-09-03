@@ -69,12 +69,12 @@ class DefaultController
             $items = $itemsOrError;
         }
 
-        $searchParamsOrNull = (\is_array($searchParams)) ? $searchParams : null;
+        $searchParamsOrEmpty = $searchParams;
 
         echo $this->twig->render('index.html.twig', [
             'errors' => $errors,
             'items' => $items,
-            'searchParamsOrNull' => $searchParamsOrNull,
+            'searchParamsOrEmpty' => $searchParamsOrEmpty,
         ]);
     }
 
