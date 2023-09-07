@@ -2,7 +2,7 @@
 
 namespace OpenEMR\Modules\NpiRegistry\Adapter\Http\Web;
 
-use OpenEMR\Modules\NpiRegistry\Application\NpiRegistryRepositoryInterface;
+use OpenEMR\Modules\NpiRegistry\Application\NpiRegistryReaderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Twig\Environment;
 
@@ -10,9 +10,9 @@ class DefaultController
 {
     private Environment $twig;
 
-    private NpiRegistryRepositoryInterface $npiRegistryRepository;
+    private NpiRegistryReaderInterface $npiRegistryRepository;
 
-    public function __construct(Environment $twig, NpiRegistryRepositoryInterface $npiRegistryRepository)
+    public function __construct(Environment $twig, NpiRegistryReaderInterface $npiRegistryRepository)
     {
         $this->twig = $twig;
         $this->npiRegistryRepository = $npiRegistryRepository;

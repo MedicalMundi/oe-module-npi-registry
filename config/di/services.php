@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
 use MedicalMundi\NpiRegistry\SDK\NpiRegistry;
-use OpenEMR\Modules\NpiRegistry\Adapter\NpiRegistry\NpiRegistryRepository;
-use OpenEMR\Modules\NpiRegistry\Application\NpiRegistryRepositoryInterface;
+use OpenEMR\Modules\NpiRegistry\Adapter\NpiRegistry\NpiRegistryReader;
+use OpenEMR\Modules\NpiRegistry\Application\NpiRegistryReaderInterface;
 use Psr\Container\ContainerInterface;
 
 return [
@@ -10,5 +10,5 @@ return [
         return NpiRegistry::connect();
     }),
 
-    NpiRegistryRepositoryInterface::class => DI\get(NpiRegistryRepository::class),
+    NpiRegistryReaderInterface::class => DI\get(NpiRegistryReader::class),
 ];
