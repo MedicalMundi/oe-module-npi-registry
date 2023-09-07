@@ -1,3 +1,11 @@
+<div class="container col-6 justify-content-center">
+    {% for error in errors %}
+        <div class="alert alert-danger">
+            {{ error.description }}
+        </div>
+    {% endfor %}
+</div>
+
 <form id="searchForm" role="form" method="post" >
     {# BASE #}
     <div class="row my-2">
