@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [Unreleased] - XXXX-XX-XX
 - result pagination
 
+## [v0.0.10] -  2023-09-07
+### (Maintenance release)
+
+
 ## [v0.0.9] -  2023-09-07
 ### Added
 - Api error to form error mapping
