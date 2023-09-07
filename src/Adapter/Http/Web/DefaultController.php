@@ -112,7 +112,7 @@ class DefaultController
 
     public function about(): void
     {
-        echo $this->twig->render('about.html.twig', []);
+        echo $this->twig->render('about/index.html.twig', []);
     }
 
     public function faq(): void
