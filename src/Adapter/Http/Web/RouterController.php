@@ -18,9 +18,10 @@ namespace OpenEMR\Modules\NpiRegistry\Adapter\Http\Web;
 
 use OpenEMR\Modules\NpiRegistry\Application\NpiRegistryReaderInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-class DefaultController
+class RouterController
 {
     private Environment $twig;
 
@@ -35,11 +36,8 @@ class DefaultController
     /**
      * naive router
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
-        /**
-         * TODO: use HTTP request/response
-         */
         if ($request->getRequestUri() === '/index.php'
             || $request->getRequestUri() === '/'
             || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry'
@@ -67,17 +65,13 @@ class DefaultController
         return $this->notFound();
     }
 
-    public function index(Request $request): void
+    public function index(Request $request): Response
     {
-        /**
-         * TODO: use HTTP request/response
-         */
-
         $searchParams = $request->request->all();
-        $itemsOrError = $this->npiRegistryRepository->search($searchParams);
+        $itemsOrError = (object) $this->npiRegistryRepository->search($searchParams);
 
         if (property_exists($itemsOrError, 'Errors')) {
-            (array) $errors = $itemsOrError->Errors;
+            $errors = (array) $itemsOrError->Errors;
             $items = [];
         } else {
             $errors = [];
@@ -86,37 +80,46 @@ class DefaultController
 
         $searchParamsOrEmpty = $searchParams;
 
-        echo $this->twig->render('index.html.twig', [
+        $content = $this->twig->render('index.html.twig', [
             'errors' => $errors,
             'items' => $items,
             'searchParamsOrEmpty' => $searchParamsOrEmpty,
         ]);
+
+        return new Response($content, 200);
     }
 
-    public function api(Request $request): void
+    public function api(Request $request): Response
     {
-        (array) $searchParams = $request->getContent();
+        $searchParams = (string) $request->getContent();
 
-        (array) $searchParams = json_decode($searchParams, true, 512, JSON_THROW_ON_ERROR);
+        $searchParams = (array) json_decode($searchParams, true, 512, JSON_THROW_ON_ERROR);
 
         $items = $this->npiRegistryRepository->search($searchParams);
 
         $json = json_encode($items, JSON_THROW_ON_ERROR);
-        echo $json;
+
+        return new Response($json, 200);
     }
 
-    public function notFound(): void
+    public function notFound(): Response
     {
-        echo $this->twig->render('not-found.html.twig', []);
+        $content = $this->twig->render('not-found.html.twig', []);
+
+        return new Response($content, 200);
     }
 
-    public function about(): void
+    public function about(): Response
     {
-        echo $this->twig->render('about/index.html.twig', []);
+        $content = $this->twig->render('about/index.html.twig', []);
+
+        return new Response($content, 200);
     }
 
-    public function faq(): void
+    public function faq(): Response
     {
-        echo $this->twig->render('faq.html.twig', []);
+        $content = $this->twig->render('faq.html.twig', []);
+
+        return new Response($content, 200);
     }
 }
