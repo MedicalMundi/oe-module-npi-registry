@@ -26,7 +26,13 @@
                         <tr>
                             <td>#</td>
                             <td>{{ item.number }}</td>
-                            <td>{{ item.enumeration_type }}</td>
+                            <td>
+                                {% if item.enumeration_type == 'NPI-1'%}
+                                    <i class="bi bi-person-fill"></i>
+                                {% else %}
+                                    <i class="bi bi-hospital-fill"></i>
+                                {% endif %}
+                            </td>
                             <td>
                                 {% if item.enumeration_type == 'NPI-1'%}
                                     {{ item.basic.first_name }} {{ item.basic.last_name }}
