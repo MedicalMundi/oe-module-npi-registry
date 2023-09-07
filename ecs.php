@@ -1,5 +1,6 @@
 <?php declare(strict_types=1);
 
+use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
 use PhpCsFixer\Fixer\FunctionNotation\NativeFunctionInvocationFixer;
 use PhpCsFixer\Fixer\Import\FullyQualifiedStrictTypesFixer;
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
@@ -34,6 +35,30 @@ return function (ECSConfig $ecsConfig): void {
         OrderedImportsFixer::class,
         StrictComparisonFixer::class,
     ]);
+
+
+    $docHeader = <<<'EOF'
+This file is part of the medicalmundi/oe-module-npi-registry
+
+@copyright (c) Zerai Teclai <teclaizerai@gmail.com>.
+@copyright (c) Francesca Bonadonna <francescabonadonna@gmail.com>.
+
+This software consists of voluntary contributions made by many individuals
+{@link https://github.com/medicalmundi/oe-module-npi-registry/graphs/contributors developer} and is licensed under the MIT license.
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+@license https://github.com/MedicalMundi/oe-module-npi-registry/blob/main/LICENSE MIT
+EOF;
+
+    $ecsConfig->ruleWithConfiguration(HeaderCommentFixer::class, [
+        'comment_type' => 'comment',
+        'header' => \trim($docHeader),
+        'location' => 'after_declare_strict',
+        'separate' => 'both',
+    ]);
+
+
 
     // this way you can add sets - group of rules
     $ecsConfig->sets([
