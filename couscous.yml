@@ -56,6 +56,14 @@ github:
 # The left menu bar
 menu:
   sections:
+    user-guide:
+      name: User Guide
+      items:
+        Install:
+          text: Install
+          # You can use relative urls
+          relativeUrl: user-guide/install.html
+
     developer-guide:
       name: Developer Guide
       items:
