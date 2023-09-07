@@ -16,7 +16,7 @@
 
 require_once __DIR__ . '/../src/Module.php';
 
-use OpenEMR\Modules\NpiRegistry\Adapter\Http\Web\DefaultController;
+use OpenEMR\Modules\NpiRegistry\Adapter\Http\Web\RouterController;
 use OpenEMR\Modules\NpiRegistry\Module;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -28,12 +28,9 @@ if (Module::isStandAlone()) {
 
 $module = Module::bootstrap();
 
-/**
- * TODO: use HTTP request/response
- */
 $request = Request::createFromGlobals();
 
-/** @var DefaultController $defaultController */
-$defaultController = $module->getContainer()->get(DefaultController::class);
+/** @var RouterController $response */
+$response = $module->getContainer()->get(RouterController::class);
 
-echo $defaultController($request);
+$response($request)->send();
