@@ -3,9 +3,9 @@
 namespace OpenEMR\Modules\NpiRegistry\Adapter\NpiRegistry;
 
 use MedicalMundi\NpiRegistry\SDK\NpiRegistry;
-use OpenEMR\Modules\NpiRegistry\Application\NpiRegistryRepositoryInterface;
+use OpenEMR\Modules\NpiRegistry\Application\NpiRegistryReaderInterface;
 
-class NpiRegistryRepository implements NpiRegistryRepositoryInterface
+class NpiRegistryReader implements NpiRegistryReaderInterface
 {
     private const DEFAULT_API_VERSION = '2.1';
 

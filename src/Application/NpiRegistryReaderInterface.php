@@ -2,7 +2,7 @@
 
 namespace OpenEMR\Modules\NpiRegistry\Application;
 
-interface NpiRegistryRepositoryInterface
+interface NpiRegistryReaderInterface
 {
     public function search(array $searchParams): ?object;
 }
