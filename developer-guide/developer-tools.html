@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="robots" content="noindex">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="https://medicalmundi.github.io/oe-module-npi-registry/favicon.svg" type="image/svg+xml" sizes="any">
+
+
+        <title>MedicalMundi - NPI Registry</title>
+
+        <link rel="stylesheet" href="https://medicalmundi.github.io/oe-module-npi-registry/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://medicalmundi.github.io/oe-module-npi-registry/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://medicalmundi.github.io/oe-module-npi-registry/css/highlight.tomorrow-night.css">
+        <link rel="stylesheet" href="https://medicalmundi.github.io/oe-module-npi-registry/css/main.css">
+    </head>
+    <body>
+
+        <header class="navbar navbar-default navbar-fixed-top">
+
+            <a class="navbar-brand" href="https://medicalmundi.github.io/oe-module-npi-registry/">
+                MedicalMundi - NPI Registry
+                <small class="hidden-xs hidden-sm">
+                    documentation
+                </small>
+            </a>
+
+            
+            <a href="https://github.com/medicalmundi/oe-module-npi-registry">
+                <img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png">
+
+            </a>
+            
+        </header>
+
+        <main class="container-fluid">
+            <div class="row">
+
+                
+                    <nav id="sidebar" class="col-sm-3 col-lg-2" role="navigation">
+
+                                                    <p class="text-muted">
+                                Developer Guide
+                            </p>
+
+                            <ul class="nav nav-pills nav-stacked">
+                                                                    <li class="">
+                                        <a href="https://medicalmundi.github.io/oe-module-npi-registry/developer-guide/quick-start.html">
+                                            Quick start
+                                        </a>
+                                    </li>
+                                                                    <li class="">
+                                        <a href="https://medicalmundi.github.io/oe-module-npi-registry/developer-guide/developer-tools.html">
+                                            Tools
+                                        </a>
+                                    </li>
+                                                            </ul>
+                        
+                    </nav>
+
+                
+                <section class="col-sm-offset-3 col-lg-offset-2 col-sm-9 col-lg-10">
+                    <h1 id="developer-tools">Developer Tools</h1>
+<p>This repository is provided with tools for testing and code quality management.</p>
+<p>You can install all tools with a single step, inside your project dir run:</p>
+<pre><code>composer bin all install</code></pre>
+<h2 id="tools-list">Tools list</h2>
+<ul>
+<li>phpunit (testing)</li>
+<li>easy-coding-standard (coding standard)</li>
+<li>psalm (static analysis)</li>
+<li>rector (maintenance and upgrade)</li>
+</ul>
+<h2 id="how-to-use">How to use</h2>
+<p>Check the sortcuts definded inside composer.json</p>
+<pre><code class="language-json">"scripts": {
+    "cs": "./vendor/bin/ecs",
+    "cs:fix": "./vendor/bin/ecs --fix",
+    "rc": "./vendor/bin/rector --dry-run",
+    "rc:fix": "./vendor/bin/rector",
+    "sa": "./vendor/bin/psalm",
+    "tf": "./vendor/bin/phpunit --testsuite=functional --testdox",
+    "ti": "./vendor/bin/phpunit --testsuite=integration --testdox",
+    "tu": "./vendor/bin/phpunit --testsuite=unit --testdox"
+    },
+    "scripts-descriptions": {
+    "cs": "Check php coding style",
+    "cs:fix": "Fix php coding style",
+    "rc": "Check rector roules",
+    "rc:fix": "Fix rector issues",
+    "sa": "Check static analysis (psalm)",
+    "tf": "Run functional testsuite",
+    "ti": "Run integration testsuite",
+    "tu": "Run unit testsuite"
+}</code></pre>
+<p>Examples:</p>
+<pre><code class="language-shell"># run unit test
+composer tu
+
+# check coding standard
+composer cs
+
+# fix check coding standard issues
+composer cs:fix</code></pre>
+                </section>
+
+            </div>
+        </main>
+
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+        <script src="//yandex.st/highlightjs/7.5/highlight.min.js"></script>
+
+        <script>
+            $(function() {
+                $("section>h1").wrap('<div class="page-header" />');
+                // Syntax highlighting
+                hljs.initHighlightingOnLoad();
+            });
+        </script>
+    </body>
+</html>
