@@ -101,7 +101,12 @@
         <div class="col">
             <div class="form-group">
                 <label for="addressType">Address Type</label>
-                <input type="text" name="addressType" value="{{ searchParamsOrEmpty.addressType }}" class="form-control" id="addressType" >
+{#                <input type="text" name="addressType" value="{{ searchParamsOrEmpty.addressType }}" class="form-control" id="addressType" >#}
+                <select name="addressType" id="addressType"  class="form-select">
+                    <option value="">Any</option>
+                    <option {{ (searchParamsOrEmpty.addressType == 'PRIMARY') ? 'selected' : '' }} value="PRIMARY"> Primary Location</option>
+                    <option {{ (searchParamsOrEmpty.addressType == 'SECONDARY') ? 'selected' : '' }}  value="SECONDARY"> Secondary Location</option>
+                </select>
             </div>
         </div>
     </div>
