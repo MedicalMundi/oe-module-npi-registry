@@ -18,7 +18,12 @@
         <div class="col">
             <div class="form-group">
                 <label for="npiType">NPI Type</label>
-                <input type="text" name="npiType" value="{{ searchParamsOrEmpty.npiType }}" class="form-control" id="npiType" >
+{#                <input type="text" name="npiType" value="{{ searchParamsOrEmpty.npiType }}" class="form-control" id="npiType" >#}
+                <select name="npiType" id="npiType" class="form-select">
+                    <option value="">Any</option>
+                    <option {{ (searchParamsOrEmpty.npiType == 'NPI-1') ? 'selected' : '' }} value="NPI-1"> Individual</option>
+                    <option {{ (searchParamsOrEmpty.npiType == 'NPI-2') ? 'selected' : '' }} value="NPI-2"> Organization</option>
+                </select>
             </div>
         </div>
         <div class="col">
@@ -96,14 +101,24 @@
         <div class="col">
             <div class="form-group">
                 <label for="addressType">Address Type</label>
-                <input type="text" name="addressType" value="{{ searchParamsOrEmpty.addressType }}" class="form-control" id="addressType" >
+{#                <input type="text" name="addressType" value="{{ searchParamsOrEmpty.addressType }}" class="form-control" id="addressType" >#}
+                <select name="addressType" id="addressType"  class="form-select">
+                    <option value="">Any</option>
+                    <option {{ (searchParamsOrEmpty.addressType == 'PRIMARY') ? 'selected' : '' }} value="PRIMARY"> Primary Location</option>
+                    <option {{ (searchParamsOrEmpty.addressType == 'SECONDARY') ? 'selected' : '' }}  value="SECONDARY"> Secondary Location</option>
+                </select>
             </div>
         </div>
     </div>
 
-    <div class="form-group my-3">
-        <button id=sendSearchForm type="submit" class="btn btn-info" title="Search">
-            Search
-        </button>
+    <div class="row justify-content-center">
+        <div class="form-group col-2 my-3">
+            <button id=sendSearchForm type="submit" class="btn btn-info" title="Search">
+                Search
+            </button>
+            <button type="reset" class="btn btn-warning" title="Reset">
+                Reset
+            </button>
+        </div>
     </div>
 </form>
