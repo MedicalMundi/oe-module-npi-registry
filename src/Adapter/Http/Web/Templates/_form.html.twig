@@ -18,7 +18,12 @@
         <div class="col">
             <div class="form-group">
                 <label for="npiType">NPI Type</label>
-                <input type="text" name="npiType" value="{{ searchParamsOrEmpty.npiType }}" class="form-control" id="npiType" >
+{#                <input type="text" name="npiType" value="{{ searchParamsOrEmpty.npiType }}" class="form-control" id="npiType" >#}
+                <select name="npiType" id="npiType" class="form-select">
+                    <option value="">Any</option>
+                    <option {{ (searchParamsOrEmpty.npiType == 'NPI-1') ? 'selected' : '' }} value="NPI-1"> Individual</option>
+                    <option {{ (searchParamsOrEmpty.npiType == 'NPI-2') ? 'selected' : '' }} value="NPI-2"> Organization</option>
+                </select>
             </div>
         </div>
         <div class="col">
