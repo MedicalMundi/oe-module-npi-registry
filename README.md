@@ -9,3 +9,6 @@ Openemr module for National Provider Identifier Registry Public records api inte
 [![Total Downloads](http://poser.pugx.org/medicalmundi/oe-module-npi-registry/downloads)](https://packagist.org/packages/medicalmundi/oe-module-npi-registry)
 [![Latest Unstable Version](http://poser.pugx.org/medicalmundi/oe-module-npi-registry/v/unstable)](https://packagist.org/packages/medicalmundi/oe-module-npi-registry)
 [![composer.lock](http://poser.pugx.org/medicalmundi/oe-module-npi-registry/composerlock)](https://packagist.org/packages/medicalmundi/oe-module-npi-registry)
+
+
+## [Online Documentation](https://medicalmundi.github.io/oe-module-npi-registry/developer-guide/quick-start.html)
