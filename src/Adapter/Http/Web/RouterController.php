@@ -67,6 +67,16 @@ class RouterController
 
     public function index(Request $request): Response
     {
+        if ('GET' === $request->getMethod()) {
+            $content = $this->twig->render('index.html.twig', [
+                'errors' => [],
+                'items' => [],
+                'searchParamsOrEmpty' => [],
+            ]);
+
+            return new Response($content, 200);
+        }
+
         $searchParams = $request->request->all();
         $itemsOrError = (object) $this->npiRegistryRepository->search($searchParams);
 
