@@ -167,7 +167,7 @@ class RouterController
 
     public function faq(): Response
     {
-        $content = $this->twig->render('faq.html.twig', []);
+        $content = $this->twig->render('faq/faq.html.twig', []);
 
         return new Response($content, 200);
     }
