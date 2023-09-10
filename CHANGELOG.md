@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 ## [Unreleased] - XXXX-XX-XX
 - result pagination
 
+## [v0.1.0] -  2023-09-08
+### added
+- widgets form (quick search).
+### removed
+- faq page
+
+
 ## [v0.0.12] -  2023-09-08
 ### (Maintenance release)
 - UI improvements

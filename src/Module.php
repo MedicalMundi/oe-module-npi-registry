@@ -26,7 +26,7 @@ class Module
 {
     public const MODULE_NAME = 'NPI Registry';
 
-    public const MODULE_VERSION = 'v0.0.12';
+    public const MODULE_VERSION = 'v0.1.0';
 
     public const MODULE_SOURCE_CODE = 'https://github.com/MedicalMundi/oe-module-npi-registry';
 
