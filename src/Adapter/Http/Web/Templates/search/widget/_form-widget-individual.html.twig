@@ -14,38 +14,49 @@
         </div>
         <input type="hidden" name="npiType" value="NPI-1" class="form-control" id="npiType" >
     </div>
+    <div class="row my-2 justify-content-center">
+        <div class="col-1">
+            <p class="d-inline-flex gap-1">
+                <a data-bs-toggle="collapse" href="#collapseExtraField" role="button" aria-expanded="false" aria-controls="collapseExtraField">
+                    <i class="bi bi-plus-circle"></i>
+                </a>
+            </p>
+        </div>
+            <div class="collapse" id="collapseExtraField">
+                <div class="card card-body">
+                    {# LOCATION #}
+                    <div class="row ">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input type="text" name="city" value="{{ searchParamsOrEmpty.city }}" class="form-control" id="city" >
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="state">State</label>
+                                <input type="text" name="state" value="{{ searchParamsOrEmpty.state }}" class="form-control" id="state" >
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="country">Country</label>
+                                <input type="text" name="country" value="{{ searchParamsOrEmpty.country }}" class="form-control" id="country" >
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="postalCode">Postal Code</label>
+                                <input type="text" name="postalCode" value="{{ searchParamsOrEmpty.postalCode }}" class="form-control" id="postalCode" >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-
-    {# LOCATION #}
-    <div class="row my-2">
-        <div class="col">
-            <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" name="city" value="{{ searchParamsOrEmpty.city }}" class="form-control" id="city" >
-            </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <label for="state">State</label>
-                <input type="text" name="state" value="{{ searchParamsOrEmpty.state }}" class="form-control" id="state" >
-            </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <label for="country">Country</label>
-                <input type="text" name="country" value="{{ searchParamsOrEmpty.country }}" class="form-control" id="country" >
-            </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <label for="postalCode">Postal Code</label>
-                <input type="text" name="postalCode" value="{{ searchParamsOrEmpty.postalCode }}" class="form-control" id="postalCode" >
-            </div>
-        </div>
     </div>
-
     <div class="row justify-content-center">
-        <div class="form-group col-2 my-3">
+        <div class="form-group col-2">
             <button id=sendSearchForm type="submit" class="btn btn-info" title="Search">
                 Search
             </button>
