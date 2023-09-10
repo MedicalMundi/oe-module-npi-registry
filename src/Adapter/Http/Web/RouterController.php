@@ -52,6 +52,11 @@ class RouterController
             return $this->api($request);
         }
 
+        if ($request->getRequestUri() === '/search'
+            || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public/search') {
+            return $this->search($request);
+        }
+
         if ($request->getRequestUri() === '/about'
             || $request->getRequestUri() === '/interface/modules/custom_modules/oe-module-npi-registry/public/about') {
             return $this->about();
@@ -91,6 +96,40 @@ class RouterController
         $searchParamsOrEmpty = $searchParams;
 
         $content = $this->twig->render('index.html.twig', [
+            'errors' => $errors,
+            'items' => $items,
+            'searchParamsOrEmpty' => $searchParamsOrEmpty,
+        ]);
+
+        return new Response($content, 200);
+    }
+
+    public function search(Request $request): Response
+    {
+        if ('GET' === $request->getMethod()) {
+            $content = $this->twig->render('search/index.html.twig', [
+                'errors' => [],
+                'items' => [],
+                'searchParamsOrEmpty' => [],
+            ]);
+
+            return new Response($content, 200);
+        }
+
+        $searchParams = $request->request->all();
+        $itemsOrError = (object) $this->npiRegistryRepository->search($searchParams);
+
+        if (property_exists($itemsOrError, 'Errors')) {
+            $errors = (array) $itemsOrError->Errors;
+            $items = [];
+        } else {
+            $errors = [];
+            $items = $itemsOrError;
+        }
+
+        $searchParamsOrEmpty = $searchParams;
+
+        $content = $this->twig->render('search/index.html.twig', [
             'errors' => $errors,
             'items' => $items,
             'searchParamsOrEmpty' => $searchParamsOrEmpty,
