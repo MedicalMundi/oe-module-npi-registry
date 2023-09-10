@@ -1,0 +1,57 @@
+<form id="searchFormIndividual" role="form" method="post" action="/interface/modules/custom_modules/oe-module-npi-registry/public/search" >
+    <div class="row my-2">
+        <div class="col">
+            <div class="form-group">
+                <label for="providerFirstName">Provider First Name</label>
+                <input type="text" name="providerFirstName" value="{{ searchParamsOrEmpty.providerFirstName }}" class="form-control" id="providerFirstName" >
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="providerLastName">Provider Last Name</label>
+                <input type="text" name="providerLastName" value="{{ searchParamsOrEmpty.providerLastName }}" class="form-control" id="providerLastName" >
+            </div>
+        </div>
+        <input type="hidden" name="npiType" value="NPI-1" class="form-control" id="npiType" >
+    </div>
+
+
+    {# LOCATION #}
+    <div class="row my-2">
+        <div class="col">
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" name="city" value="{{ searchParamsOrEmpty.city }}" class="form-control" id="city" >
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" name="state" value="{{ searchParamsOrEmpty.state }}" class="form-control" id="state" >
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" name="country" value="{{ searchParamsOrEmpty.country }}" class="form-control" id="country" >
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label for="postalCode">Postal Code</label>
+                <input type="text" name="postalCode" value="{{ searchParamsOrEmpty.postalCode }}" class="form-control" id="postalCode" >
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="form-group col-2 my-3">
+            <button id=sendSearchForm type="submit" class="btn btn-info" title="Search">
+                Search
+            </button>
+            <button type="reset" class="btn btn-warning" title="Reset">
+                Reset
+            </button>
+        </div>
+    </div>
+</form>
