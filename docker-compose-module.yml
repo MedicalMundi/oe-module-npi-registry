@@ -1,0 +1,6 @@
+version: '3.1'
+services:
+  openemr:
+    volumes:
+      - ../..:/openemr:rw
+      - ./../../../../oe-module-npi-registry/:/oe-module-npi-registry:rw
