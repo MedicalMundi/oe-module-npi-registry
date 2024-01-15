@@ -30,15 +30,23 @@ help:
 # develop available openemr branch: master
 
 ifndef OE_RELEASE_ENV
-OE_RELEASE_ENV=v7_0_1
+OE_RELEASE_ENV=master
 OE_DEVELOPMENT_ENV=development-easy
-OE_DOCKER_COMPOSE_FILE=./../openemr-instance/${OE_RELEASE_ENV}/docker/${OE_DEVELOPMENT_ENV}/docker-compose.yml -f docker-compose-module.yml
+#OE_DOCKER_COMPOSE_FILE=./../openemr-instance/${OE_RELEASE_ENV}/docker/${OE_DEVELOPMENT_ENV}/docker-compose.yml -f docker-compose-module.yml
 endif
 
 ifndef MODULE_ENV
 VENDOR_NAME_ENV=medicalmundi
 PACKAGE_NAME_ENV=oe-module-npi-registry
 MODULE_ENV=${VENDOR_NAME_ENV}/${PACKAGE_NAME_ENV}
+endif
+
+ifndef CURRENT_INSTANCE_ENV
+CURRENT_INSTANCE_ENV=${PACKAGE_NAME_ENV}-${OE_RELEASE_ENV}
+endif
+
+ifndef OE_DOCKER_COMPOSE_FILE
+OE_DOCKER_COMPOSE_FILE=./../openemr-instance/${CURRENT_INSTANCE_ENV}/docker/${OE_DEVELOPMENT_ENV}/docker-compose.yml -f docker-compose-module.yml
 endif
 
 release-download:
@@ -56,51 +64,51 @@ release-remove:
 instance-init:
 	echo "Init Openemr instance version: ${OE_RELEASE_ENV}"
 	rm -fR ./../openemr-instance/${OE_RELEASE_ENV}/
-	cp -fR ./../openemr-release/${OE_RELEASE_ENV}/ ./../openemr-instance/${OE_RELEASE_ENV}
+	cp -fR ./../openemr-release/${OE_RELEASE_ENV}/ ./../openemr-instance/${CURRENT_INSTANCE_ENV}
 
 instance-start:
 	echo "Start Openemr instance version: ${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} up -d
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} up -d
 	$(MAKE) instance-fix-permission
 	$(MAKE) instance-status
 	$(MAKE) instance-log
 
 instance-stop:
 	echo "Stop Openemr instance version: ${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} down
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} down
 
 instance-status:
 	echo "Check Openemr instance status: ${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} ps
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} ps
 
 instance-log:
 	echo "Check Openemr instance status: ${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} logs -f openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} logs -f openemr
 
 instance-clean:
 	echo "Stop and Clean Openemr instance version: ${OE_RELEASE_ENV}"
 	$(MAKE) instance-stop
 	echo "Clean Openemr volumes for instance version: ${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} down -v
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} down -v
 
 instance-fix-permission:
 	echo "Fix file & folder permission in Openemr instance version: ${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec -T openemr chown -R apache:apache /var/www/localhost/htdocs/openemr
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec -T openemr chown -R apache:apache /${PACKAGE_NAME_ENV}
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec -T openemr chown -R apache:apache /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec -T openemr chown -R apache:apache /${PACKAGE_NAME_ENV}
 
 instance-shell:
 	echo "Entering in Openemr instance version: ${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr sh
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr sh
 
 config-oe-instance:
 	echo "Config Openemr instance version: ${OE_RELEASE_ENV}"
 	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec -T openemr php -f /var/www/localhost/htdocs/openemr/contrib/util/installScripts/InstallerAuto.php rootpass=root server=mysql loginhost=%
 
 tail-error:
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec -T openemr tail -f /var/log/apache2/error.log
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec -T openemr tail -f /var/log/apache2/error.log
 
 tail-access:
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec -T openemr tail -f /var/log/apache2/access.log
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec -T openemr tail -f /var/log/apache2/access.log
 
 
 #
@@ -110,24 +118,24 @@ tail-access:
 
 module-install:
 	echo "Install ${MODULE_ENV} in openemr:${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer require ${MODULE_ENV} --prefer-source --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer require ${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
 	$(MAKE) instance-fix-permission
 	echo "Module ${MODULE_ENV} installed in Openemr:${OE_RELEASE_ENV}"
 
 module-dev-install:
 	echo "Install ${MODULE_ENV} in openemr:${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer require ${MODULE_ENV}:dev-main --prefer-source --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer require ${MODULE_ENV}:dev-main --prefer-source --working-dir /var/www/localhost/htdocs/openemr
 	$(MAKE) instance-fix-permission
 	echo "Module ${MODULE_ENV} installed in Openemr:${OE_RELEASE_ENV}"
 
 module-remove:
 	echo "Remove ${MODULE_ENV} in openemr:${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer remove ${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer remove ${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
 	echo "Module ${MODULE_ENV} removed in Openemr:${OE_RELEASE_ENV}"
 
 module-update:
 	echo "Update ${MODULE_ENV} in openemr:${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer update ${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer update ${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
 	$(MAKE) instance-fix-permission
 	echo "Module ${MODULE_ENV} updated in Openemr:${OE_RELEASE_ENV}"
 
@@ -139,16 +147,16 @@ module-update:
 
 local-module-install:
 	echo "Install ${MODULE_ENV} as local module (from directory) in openemr:${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer config repositories.${MODULE_ENV} '{"type": "path", "url": "/${PACKAGE_NAME_ENV}/"}' --working-dir /var/www/localhost/htdocs/openemr
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer require ${MODULE_ENV}:dev-main --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer config repositories.${MODULE_ENV} '{"type": "path", "url": "/${PACKAGE_NAME_ENV}/"}' --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer require ${MODULE_ENV}:dev-main --working-dir /var/www/localhost/htdocs/openemr
 	$(MAKE) instance-fix-permission
 	echo "Module ${MODULE_ENV} installed in Openemr:${OE_RELEASE_ENV}"
 
 local-module-remove:
 	echo "Remove ${MODULE_ENV} in openemr:${OE_RELEASE_ENV}"
 	echo "Remove composer repositories.${OE_RELEASE_ENV} reference in composer.json"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer remove ${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer config --unset repositories.${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer remove ${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer config --unset repositories.${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
 	echo "Module ${MODULE_ENV} removed in Openemr:${OE_RELEASE_ENV}"
 
 #
@@ -158,19 +166,19 @@ local-module-remove:
 
 github-module-install:
 	echo "Install ${MODULE_ENV} from github.com in openemr:${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer config repositories.${MODULE_ENV} vcs https://github.com/${MODULE_ENV}.git --working-dir /var/www/localhost/htdocs/openemr
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer require ${MODULE_ENV}:dev-main --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer config repositories.${MODULE_ENV} vcs https://github.com/${MODULE_ENV}.git --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer require ${MODULE_ENV}:dev-main --working-dir /var/www/localhost/htdocs/openemr
 	echo "Module ${MODULE_ENV} installed in Openemr:${OE_RELEASE_ENV}"
 
 github-module-dev-install:
 	echo "Install ${MODULE_ENV} from github.com in openemr:${OE_RELEASE_ENV}"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer config repositories.${MODULE_ENV} vcs https://github.com/${MODULE_ENV}.git --working-dir /var/www/localhost/htdocs/openemr
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer require ${MODULE_ENV}:dev-main --prefer-source --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer config repositories.${MODULE_ENV} vcs https://github.com/${MODULE_ENV}.git --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer require ${MODULE_ENV}:dev-main --prefer-source --working-dir /var/www/localhost/htdocs/openemr
 	echo "Module ${MODULE_ENV} installed in Openemr:${OE_RELEASE_ENV}"
 
 github-module-remove:
 	echo "Remove ${MODULE_ENV} in openemr:${OE_RELEASE_ENV}"
 	echo "Remove composer repositories.${OE_RELEASE_ENV} reference in composer.json"
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer remove ${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
-	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} exec openemr composer config --unset repositories.${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer remove ${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
+	docker-compose -f ${OE_DOCKER_COMPOSE_FILE} -p ${CURRENT_INSTANCE_ENV} exec openemr composer config --unset repositories.${MODULE_ENV} --working-dir /var/www/localhost/htdocs/openemr
 	echo "Module ${MODULE_ENV} removed in Openemr:${OE_RELEASE_ENV}"
