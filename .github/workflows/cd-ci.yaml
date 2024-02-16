@@ -8,3 +8,12 @@ jobs:
     uses: medicalmundi/oe-module-npi-registry/.github/workflows/commit-stage.yaml@main
     with:
       triggering-sha: "${{ github.sha }}"
+
+  acceptance-stage-workflow:
+    name: Acceptance Stage
+    needs:
+      - commit-stage-workflow
+    uses: medicalmundi/oe-module-npi-registry/.github/workflows/acceptance-stage.yaml@main
+    with:
+      triggering-sha: "${{ github.sha }}"
+    secrets: inherit

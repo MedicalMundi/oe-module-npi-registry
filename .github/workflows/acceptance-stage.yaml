@@ -1,0 +1,138 @@
+name: Acceptance stage
+
+on:
+  workflow_call:
+    # Map the workflow outputs to job outputs
+    inputs:
+      triggering-sha:
+        required: true
+        type: string
+
+env:
+  # PHP SETTINGS
+  PHP_EXTENSIONS: 'json'
+  PHP_EXTENSIONS_CACHE_KEY: cache-php-extensions-v1
+
+jobs:
+  check-composer-conflict-as-local-module:
+    name: Local Module conflict (php-${{ matrix.php }} openemr-${{ matrix.openemr }})
+    #if: ${{ github.ref_name == 'main' }}
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    continue-on-error: ${{ matrix.is-php-experimental }}
+    strategy:
+      max-parallel: 10
+      matrix:
+        openemr: [master, v7_0_2, v7_0_1_1, v7_0_1]
+        php: ['8.1', '8.2', '8.3']
+        is-php-experimental: [false]
+        include:
+          - openemr: v7_0_0_2
+            php: '7.4'
+            is-php-experimental: false
+          - openemr: v7_0_0_1
+            php: '7.4'
+            is-php-experimental: false
+          - openemr: v7_0_0
+            php: '7.4'
+            is-php-experimental: false
+
+      #        php:
+      #          - '8.1'
+      #        is-php-experimental: [false]
+      #        include:
+      #          - php: '8.1'
+      #            openemr: [v7_0_1_1, v7_0_1]
+      #            is-php-experimental: false
+      #          - php: '8.2'
+      #            openemr: [v7_0_1_1, v7_0_1]
+      #            is-php-experimental: true
+      fail-fast: false
+    steps:
+      - name: Setup php extension cache environment
+        if: ${{ vars.USE_PHP_EXTENSION_CACHE }}
+        id: cache-php-extensions
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          key: ${{ env.PHP_EXTENSIONS_CACHE_KEY }}-${{ matrix.php }}
+
+      - name: Cache PHP extensions
+        if: ${{ vars.USE_PHP_EXTENSION_CACHE }}
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.cache-php-extensions.outputs.dir }}
+          key: ${{ steps.cache-php-extensions.outputs.key }}
+          restore-keys: ${{ steps.cache-php-extensions.outputs.key }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.25.5
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: ${{ env.PHP_EXTENSIONS }}
+          ini-values: memory_limit=-1
+          coverage: none
+          tools: composer
+
+      - name: Set Composer Cache Directory
+        if: ${{ vars.USE_COMPOSER_CACHE }}
+        id: composer-cache
+        run: |
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        if: ${{ vars.USE_COMPOSER_CACHE }}
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-php-${{ matrix.php }}-openemr-${{ matrix.openemr }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-${{ matrix.php }}-openemr-${{ matrix.openemr }}-composer-
+
+      - name: Dump context
+        uses: crazy-max/ghaction-dump-context@v2
+
+      - name: Clone openEmr tag ${{ matrix.openemr }}
+        uses: actions/checkout@v3
+        with:
+          repository: openemr/openemr
+          ref: ${{ matrix.openemr }}
+
+      - name: Install openEmr vendor dependencies
+        run: composer install
+
+      - name: list directory
+        run: ls -al
+
+      - name: Install wikimedia/composer-merge-plugin package
+        run: |
+          composer config --no-interaction allow-plugins.wikimedia/composer-merge-plugin true
+          composer require wikimedia/composer-merge-plugin
+          composer config --json extra.merge-plugin '{"include": "/var/www/localhost/htdocs/openemr/interface/modules/custom_modules/oe-module-npi-registry/composer.json", "merge-dev": false, "merge-scripts": false }'
+
+      - name: Composer info
+        run: |
+          composer info
+          composer outdated
+          cat composer.json
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+      - name: Add Module to openemr
+        run: git clone https://github.com/medicalmundi/oe-module-npi-registry.git -b ${{ steps.extract_branch.outputs.branch }} interface/modules/custom_modules/oe-module-npi-registry
+
+      - name: Check custom module directory
+        run: |
+          ls -al interface/modules/custom_modules/
+          ls -al interface/modules/custom_modules/oe-module-npi-registry
+
+      - name: Fix OpenEmr composer.json issues
+        run: |
+          composer update psr/cache:2.0.0
+
+      - name: Install module in openEmr
+        run: composer require medicalmundi/oe-module-npi-registry
