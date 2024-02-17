@@ -130,9 +130,5 @@ jobs:
           ls -al interface/modules/custom_modules/
           ls -al interface/modules/custom_modules/oe-module-npi-registry
 
-      - name: Fix OpenEmr composer.json issues
-        run: |
-          composer update psr/cache:2.0.0
-
       - name: Install module in openEmr
         run: composer require medicalmundi/oe-module-npi-registry
