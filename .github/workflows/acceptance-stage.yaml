@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 10
     continue-on-error: ${{ matrix.is-php-experimental }}
     strategy:
-      max-parallel: 5
+      max-parallel: 4
       matrix:
         openemr: [master, v7_0_2, v7_0_1_1, v7_0_1]
         php: ['8.1', '8.2', '8.3']
