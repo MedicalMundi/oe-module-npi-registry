@@ -21,7 +21,7 @@ jobs:
     timeout-minutes: 10
     continue-on-error: ${{ matrix.is-php-experimental }}
     strategy:
-      max-parallel: 10
+      max-parallel: 5
       matrix:
         openemr: [master, v7_0_2, v7_0_1_1, v7_0_1]
         php: ['8.1', '8.2', '8.3']
@@ -36,17 +36,6 @@ jobs:
           - openemr: v7_0_0
             php: '7.4'
             is-php-experimental: false
-
-      #        php:
-      #          - '8.1'
-      #        is-php-experimental: [false]
-      #        include:
-      #          - php: '8.1'
-      #            openemr: [v7_0_1_1, v7_0_1]
-      #            is-php-experimental: false
-      #          - php: '8.2'
-      #            openemr: [v7_0_1_1, v7_0_1]
-      #            is-php-experimental: true
       fail-fast: false
     steps:
       - name: Setup php extension cache environment
@@ -60,7 +49,7 @@ jobs:
 
       - name: Cache PHP extensions
         if: ${{ vars.USE_PHP_EXTENSION_CACHE }}
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.cache-php-extensions.outputs.dir }}
           key: ${{ steps.cache-php-extensions.outputs.key }}
@@ -82,7 +71,7 @@ jobs:
           echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Composer dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: ${{ vars.USE_COMPOSER_CACHE }}
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -94,7 +83,7 @@ jobs:
         uses: crazy-max/ghaction-dump-context@v2
 
       - name: Clone openEmr tag ${{ matrix.openemr }}
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: openemr/openemr
           ref: ${{ matrix.openemr }}
