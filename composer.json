@@ -18,7 +18,7 @@
         "php": "^7.4 || ^8.0",
         "medicalmundi/npi-registry-php-sdk": "^0.1",
         "openemr/oe-module-installer-plugin": "^0.1.",
-        "php-di/php-di": "^6.0",
+        "php-di/php-di": "^6.4",
         "symfony/event-dispatcher": "^5.4",
         "symfony/http-foundation": "^4.4 || ^5.4",
         "twig/twig": "^2.12 || ^3.5"
