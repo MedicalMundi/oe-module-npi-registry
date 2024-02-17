@@ -79,8 +79,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-php-${{ matrix.php }}-openemr-${{ matrix.openemr }}-composer-
 
-      - name: Dump context
-        uses: crazy-max/ghaction-dump-context@v2
+      - name: Show CI job info (dump context)
+        if: ${{ vars.SHOW_WORKFLOW_INFO == '1'}}
+        uses: crazy-max/ghaction-dump-context@v2.1.0
 
       - name: Clone openEmr tag ${{ matrix.openemr }}
         uses: actions/checkout@v4
