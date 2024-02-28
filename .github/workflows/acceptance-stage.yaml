@@ -81,7 +81,7 @@ jobs:
 
       - name: Show CI job info (dump context)
         if: ${{ vars.SHOW_WORKFLOW_INFO == '1'}}
-        uses: crazy-max/ghaction-dump-context@v2.1.0
+        uses: crazy-max/ghaction-dump-context@v2.2.0
 
       - name: Clone openEmr tag ${{ matrix.openemr }}
         uses: actions/checkout@v4
