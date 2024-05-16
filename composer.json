@@ -21,7 +21,7 @@
         "php-di/php-di": "^6.0",
         "symfony/event-dispatcher": "^5.4",
         "symfony/http-foundation": "^4.4 || ^5.4",
-        "twig/twig": "^2.12 || ^3.5"
+        "twig/twig": "^3.10.3"
     },
     "conflict": {
         "openemr/openemr": "<7.0.0",
