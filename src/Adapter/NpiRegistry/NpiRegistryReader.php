@@ -32,7 +32,7 @@ class NpiRegistryReader implements NpiRegistryReaderInterface
 
     public function search(array $searchParams): ?object
     {
-        /** @var \MedicalMundi\NpiRegistry\SDK\NpiRegistry $finder */
+        /** @var NpiRegistry $finder */
         $finder = $this->npiRegistry->search
             ->where('version', self::DEFAULT_API_VERSION)
             ->where('exactMatch', false)
