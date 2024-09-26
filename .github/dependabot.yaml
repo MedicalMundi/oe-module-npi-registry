@@ -17,6 +17,10 @@ updates:
       prefix: "composer"
     labels:
       - "php dependency"
+    ignore:
+      - dependency-name: "symfony/event-dispatcher"
+      - dependency-name: "symfony/http-foundation"
+      - dependency-name: "twig/twig"
 
   ########################################################################################################################
   #
